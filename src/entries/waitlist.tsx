@@ -35,16 +35,17 @@ const WaitlistContent: React.FC = () => {
 
     try {
       setStatus('loading');
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('message', `Waitlist ${new Date().toISOString()}`);
+      formData.append('consent', 'true');
+      formData.append('ts', new Date().toISOString());
+      formData.append('source', 'doptrading.it');
+      formData.append('page', 'waitlist');
       const response = await fetch(endpoint, {
         method: 'POST',
-        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          consent: true,
-          ts: new Date().toISOString(),
-          source: 'doptrading.it',
-          page: 'waitlist',
-        }),
+        headers: { Accept: 'application/json' },
+        body: formData,
       });
 
       if (response.ok) {
