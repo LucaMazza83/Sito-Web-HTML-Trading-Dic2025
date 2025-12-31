@@ -31,20 +31,20 @@ export const Footer: React.FC = () => {
           <div>
             <h4 className="font-heading font-bold text-white mb-6 uppercase tracking-wider text-sm">Platform</h4>
             <ul className="space-y-4 text-gray-400">
-              <li><a href="#" className="hover:text-brand-teal transition-colors">Software</a></li>
-              <li><a href="#" className="hover:text-brand-teal transition-colors">Signals</a></li>
-              <li><a href="#" className="hover:text-brand-teal transition-colors">Pricing</a></li>
-              <li><a href="#" className="hover:text-brand-teal transition-colors">API</a></li>
+              <li><a href="/#/platform" className="hover:text-brand-teal transition-colors">Software</a></li>
+              <li><a href="/#/signals" className="hover:text-brand-teal transition-colors">Signals</a></li>
+              <li><span className="text-gray-500 cursor-not-allowed">Pricing (Coming soon)</span></li>
+              <li><span className="text-gray-500 cursor-not-allowed">API (Coming soon)</span></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-heading font-bold text-white mb-6 uppercase tracking-wider text-sm">Resources</h4>
             <ul className="space-y-4 text-gray-400">
-              <li><a href="#" className="hover:text-brand-teal transition-colors">Academy</a></li>
-              <li><a href="#" className="hover:text-brand-teal transition-colors">Blog</a></li>
-              <li><a href="#" className="hover:text-brand-teal transition-colors">Help Center</a></li>
-              <li><a href="#" className="hover:text-brand-teal transition-colors">Status</a></li>
+              <li><a href="/#/academy" className="hover:text-brand-teal transition-colors">Academy</a></li>
+              <li><span className="text-gray-500 cursor-not-allowed">Blog (Coming soon)</span></li>
+              <li><span className="text-gray-500 cursor-not-allowed">Help Center (Coming soon)</span></li>
+              <li><span className="text-gray-500 cursor-not-allowed">Status (Coming soon)</span></li>
             </ul>
           </div>
         </div>
@@ -52,8 +52,10 @@ export const Footer: React.FC = () => {
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
           <p>{t.footer.rights}</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-white transition-colors">{t.footer.privacy}</a>
-            <a href="#" className="hover:text-white transition-colors">{t.footer.legal}</a>
+            <a href="/privacy-policy/" className="hover:text-white transition-colors">{t.footer.privacy}</a>
+            <a href="/cookie-policy/" className="hover:text-white transition-colors">Cookie policy</a>
+            <a href="/termini-e-condizioni/" className="hover:text-white transition-colors">{t.footer.legal}</a>
+            <a href="/disclaimer-trading/" className="hover:text-white transition-colors">Disclaimer trading</a>
           </div>
         </div>
       </div>

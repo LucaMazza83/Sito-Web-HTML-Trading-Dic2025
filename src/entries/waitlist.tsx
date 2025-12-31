@@ -9,9 +9,40 @@ type SubmitStatus = 'idle' | 'loading' | 'success' | 'error';
 
 const isValidEmail = (value: string) => /^\S+@\S+\.\S+$/.test(value);
 const CONTACT_EMAIL = 'luca.mazzarello1983@gmail.com';
+const WAITLIST_FALLBACK = {
+  [Language.IT]: {
+    title: 'Entra in Waitlist',
+    subtitle: 'Lascia la tua email per ricevere accesso prioritario e aggiornamenti sul lancio.',
+    emailLabel: 'Email',
+    emailPlaceholder: 'nome@dominio.com',
+    consentPrefix: 'Acconsento al trattamento dei dati secondo la',
+    consentLink: 'Privacy Policy',
+    submit: 'Iscrivimi',
+    submitting: 'Invio...',
+    successTitle: 'Ricevuto',
+    successBody: 'Grazie! Ti avviseremo appena la piattaforma sarà disponibile.',
+    errorTitle: 'Errore',
+    errorBody: 'Controlla email e consenso e riprova.'
+  },
+  [Language.EN]: {
+    title: 'Join the Waitlist',
+    subtitle: 'Leave your email to get early access and launch updates.',
+    emailLabel: 'Email',
+    emailPlaceholder: 'name@domain.com',
+    consentPrefix: 'I agree to the data processing as described in the',
+    consentLink: 'Privacy Policy',
+    submit: 'Join',
+    submitting: 'Sending...',
+    successTitle: 'Received',
+    successBody: "Thanks! We'll notify you when the platform is available.",
+    errorTitle: 'Error',
+    errorBody: 'Check your email and consent, then try again.'
+  }
+};
 
 const WaitlistContent: React.FC = () => {
   const { t, language } = useLanguage();
+  const wt = (t as any).waitlist ?? WAITLIST_FALLBACK[language];
   const [email, setEmail] = useState('');
   const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<SubmitStatus>('idle');
@@ -61,14 +92,14 @@ const WaitlistContent: React.FC = () => {
   return (
     <section className="max-w-3xl mx-auto px-6">
       <div className="mb-10">
-        <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">{t.waitlist.title}</h1>
-        <p className="text-gray-400 text-lg">{t.waitlist.subtitle}</p>
+        <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">{wt.title}</h1>
+        <p className="text-gray-400 text-lg">{wt.subtitle}</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label htmlFor="waitlist-email" className="block text-sm font-medium text-gray-300 mb-2">
-            {t.waitlist.emailLabel}
+            {wt.emailLabel}
           </label>
           <input
             id="waitlist-email"
@@ -76,7 +107,7 @@ const WaitlistContent: React.FC = () => {
             required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            placeholder={t.waitlist.emailPlaceholder}
+            placeholder={wt.emailPlaceholder}
             className="w-full rounded-lg bg-white/5 border border-white/10 px-4 py-3 text-white focus:border-brand-teal focus:outline-none"
           />
         </div>
@@ -90,31 +121,31 @@ const WaitlistContent: React.FC = () => {
             className="mt-1 h-4 w-4 rounded border-white/20 bg-white/5"
           />
           <span>
-            {t.waitlist.consentPrefix}{' '}
+            {wt.consentPrefix}{' '}
             <a href="/privacy-policy/" className="text-brand-teal hover:text-white transition-colors">
-              {t.waitlist.consentLink}
+              {wt.consentLink}
             </a>
           </span>
         </label>
 
         <div>
           <Button type="submit" variant="secondary" disabled={status === 'loading'} className="px-8 py-3">
-            {status === 'loading' ? t.waitlist.submitting : t.waitlist.submit}
+            {status === 'loading' ? wt.submitting : wt.submit}
           </Button>
         </div>
 
         {status === 'success' && (
           <div className="rounded-lg border border-brand-teal/30 bg-brand-teal/10 px-4 py-3 text-brand-teal">
-            <strong className="block mb-1">{t.waitlist.successTitle}</strong>
-            <span>{t.waitlist.successBody}</span>
+            <strong className="block mb-1">{wt.successTitle}</strong>
+            <span>{wt.successBody}</span>
           </div>
         )}
 
         {status === 'error' && (
           <div className="rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-3 text-red-300">
-            <strong className="block mb-1">{t.waitlist.errorTitle}</strong>
+            <strong className="block mb-1">{wt.errorTitle}</strong>
             <div className="space-y-1">
-              <span className="block">{t.waitlist.errorBody}</span>
+              <span className="block">{wt.errorBody}</span>
               {endpointMissing && (
                 <span className="block text-sm text-gray-200">
                   {language === Language.IT ? `Per info: ${CONTACT_EMAIL}` : `For info: ${CONTACT_EMAIL}`}
