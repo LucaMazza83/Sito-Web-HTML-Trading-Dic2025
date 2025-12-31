@@ -59,6 +59,20 @@
 - Sintomo UI: `/waitlist/` "pagina bianca" durante mismatch; dopo deploy corretto "senza grafica" per head/styling mancanti; correzione manuale via cPanel aggiungendo head/styling (Tailwind/Fonts/Style) negli HTML waitlist/legali.
 - Comandi/azioni da log: `Select-String` per link Footer/Navbar; `curl` per status code; confronto hash asset dai tag `<script>` HTML.
 
+### 2025-12-31 — LIVE legal pages non allineate alla dist
+- Repo pulito, dist check OK.
+- LIVE `/` e `/waitlist/` servono build (asset presenti).
+- LIVE legali servono HTML diverso (no asset della dist, SHA256 diverso).
+
+| Path | Status | HashMatch | LiveAssets | DistAssets |
+| --- | --- | --- | --- | --- |
+| /privacy-policy/ | 200 | False | 0 | 4 |
+| /cookie-policy/ | 200 | False | 0 | 4 |
+| /termini-e-condizioni/ | 200 | False | 0 | 4 |
+| /disclaimer-trading/ | 200 | False | 0 | 4 |
+
+Implicazione operativa: prima di qualunque fix grafico, serve riallineare cosa viene servito su quegli slug.
+
 ## TODO prossimi step
 - Rendere strutturale nel repo la `head`/styling per `waitlist/` e pagine legali (evitare fix manuali in cPanel).
 - Allineare processo deploy per evitare mismatch hash (upload unico + purge Cloudflare + verifica hash).
