@@ -73,11 +73,59 @@
 
 Implicazione operativa: prima di qualunque fix grafico, serve riallineare cosa viene servito su quegli slug.
 
+### 2025-12-31 — Fix strutturale in repo: Tailwind head nelle pagine legali + rename label footer
+- Commit (main): `2f2735926f06eda18142d9d338e287fd21cd8bce`.
+- File toccati (5): `constants.ts`, `privacy-policy/index.html`, `cookie-policy/index.html`, `termini-e-condizioni/index.html`, `disclaimer-trading/index.html`.
+- Head legali: aggiunti Tailwind CDN + Google Fonts + base style; build locale verificata con `dist/*/index.html` che contiene `https://cdn.tailwindcss.com`.
+- Rename label footer: `legal: "Termini e Condizioni"` (in repo); visibile live solo dopo deploy.
+- `npm ci` warning EBADENGINE per `@vitejs/plugin-react` (richiede Node `^20.19.0 || >=22.12.0`); build OK (warning non bloccante).
+
+### Errori ricorrenti PowerShell/CMD (da non ripetere)
+- `findstr` con virgolette/regex errate -> "Stringa di ricerca mancante"/"Argomento non trovato dopo /c".
+- `foreach(...)` errato -> "Missing variable name after foreach".
+- Concatenazioni incomplete: `('Len='+.Length)` senza `$var`.
+- `Continue=Stop` non valido: usare `$ErrorActionPreference='Stop'`.
+- Assegnazioni con nome che inizia per numero/data (es. `20251231-...=Get-Date...`) non valide.
+- Regola progetto: no fix manuali incoerenti su cPanel; ogni correzione deve passare da repo + deploy ripetibile.
+
 ## TODO prossimi step
 - Rendere strutturale nel repo la `head`/styling per `waitlist/` e pagine legali (evitare fix manuali in cPanel).
 - Allineare processo deploy per evitare mismatch hash (upload unico + purge Cloudflare + verifica hash).
 - Rendere coerente la CTA Waitlist e collegare "Inizia Ora" a `/waitlist/` (se richiesto).
 - Definire gestione link "Coming soon" e route mancanti.
+
+### Prompt di apertura nuova chat (incolla come primo messaggio)
+```
+NUOVA CHAT — DopTrading Static Site (Vite/React) / Priorità CTA Waitlist
+
+Questa chat è il proseguo ufficiale del progetto DopTrading marketing static site.
+Repo: Sito-Web-HTML-Trading-Dic2025 — branch main.
+
+RUOLO
+Sei PM + Tech Lead operativo. Decisioni a basso rischio, niente assunzioni.
+
+VINCOLI
+Step-by-step: 1 sola azione per volta + STOP.
+No distruttivo su cPanel: NO DELETE, solo MOVE in cartelle backup.
+Ogni scoperta va in project_docs/HANDOVER_SITE.md con backup+diff+commit.
+Codex non ha memoria: istruzioni blindate, scope limitato.
+
+STATO FATTI (repo)
+
+Fix strutturale legali + rename label footer già fatto in repo (commit 2f2735926f06eda18142d9d338e287fd21cd8bce).
+
+Nota: la visibilità live dipende dal prossimo deploy (oggi NON si deploya).
+
+OBIETTIVO UNICO DI QUESTA CHAT (PRIORITÀ ASSOLUTA)
+Collegare tutte le CTA e pulsanti “Iscriviti / Inizia ora / Start / Join / Provalo” a /waitlist/ (incluse varianti desktop/mobile, hero, navbar, footer, sezioni marketing).
+✅ Regola: nessuna CTA deve puntare a placeholder o route incoerenti.
+
+DOPO (solo se la priorità è completata): STOP lavoro sul sito finché il software non è terminato.
+
+PRIMO STEP OBBLIGATORIO (solo verifica, zero modifiche)
+Cerca in repo tutte le occorrenze di link/CTA potenzialmente da riallineare (href, to, navigate, anchor hash) e produci un report con: file, riga, valore attuale, proposta “→ /waitlist/”.
+STOP e attendi approvazione prima di modificare.
+```
 
 ## Dipendenze
 - Tooling: Vite + React + TypeScript, Node.js + npm per build.
