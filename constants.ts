@@ -69,7 +69,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     },
     footer: {
       rights: "© 2024 DopTrading. Tutti i diritti riservati.",
-      legal: "Note Legali",
+      legal: "Termini e Condizioni",
       privacy: "Privacy Policy",
     }
   }
