@@ -89,6 +89,69 @@ Implicazione operativa: prima di qualunque fix grafico, serve riallineare cosa v
 - Non annidare `pwsh -Command` con doppie virgolette: espande `$f` e genera `if (!` -> ParserError "Missing expression after unary operator '!'."
 - Regola progetto: no fix manuali incoerenti su cPanel; ogni correzione deve passare da repo + deploy ripetibile.
 
+## Deploy PROD - 2026-01-01
+- Commit deploy: 188dc93.
+- Metodo: upload + extract dist/ in public_html (static Vite) con backup MOVE in `backup_20260101-1441/` (NO DELETE).
+- Struttura PROD verificata: `assets/`, `waitlist/`, `cookie-policy/`, `privacy-policy/`, `disclaimer-trading/`, `termini-e-condizioni/`, `index.html`, `backup_20260101-1441/`.
+- ZIP deploy spostato fuori root pubblica (MOVE in `backup_20260101-1441/`).
+- Verifica HTTP (curl): 200 OK su `/` e `/waitlist/` (2026-01-01 14:08 circa); `Last-Modified: 2026-01-01 13:41:02 GMT`.
+
+## File Map & Correlazioni (repo -> dist -> PROD)
+
+### ROOT HTML PAGES (repo)
+- `index.html` -> entry principale; carica modulo `/index.tsx`.
+- `waitlist/index.html` -> entry waitlist; carica modulo `/src/entries/waitlist.tsx`.
+- `cookie-policy/index.html` -> entry legale; carica modulo `/src/entries/cookie-policy.tsx`.
+- `privacy-policy/index.html` -> entry legale; carica modulo `/src/entries/privacy-policy.tsx`.
+- `disclaimer-trading/index.html` -> entry legale; carica modulo `/src/entries/disclaimer-trading.tsx`.
+- `termini-e-condizioni/index.html` -> entry legale; carica modulo `/src/entries/termini-e-condizioni.tsx`.
+
+### SOURCE ENTRYPOINTS (src/entries/*)
+- `src/entries/waitlist.tsx` -> render waitlist; usa `LanguageProvider`, `StaticPageLayout`, `Button`; POST a `VITE_WAITLIST_ENDPOINT`; link `/privacy-policy/`.
+- `src/entries/LegalPage.tsx` -> definisce `mountLegalPage` (usato dalle entry legali); usa `LanguageProvider` + `StaticPageLayout`.
+- `src/entries/cookie-policy.tsx` -> chiama `mountLegalPage` con testi cookie.
+- `src/entries/privacy-policy.tsx` -> chiama `mountLegalPage` con testi privacy.
+- `src/entries/disclaimer-trading.tsx` -> chiama `mountLegalPage` con testi disclaimer.
+- `src/entries/termini-e-condizioni.tsx` -> chiama `mountLegalPage` con testi termini.
+
+### APP ROOT / ROUTING
+- `index.tsx` -> monta `<App />` su `#root`.
+- `App.tsx` -> `HashRouter` + `Routes`; importa `Navbar`, `Footer`, `LanguageProvider`, pagine `Home`, `Platform`, `Academy`.
+
+### COMPONENTI CORE (chi li importa)
+- `components/Navbar.tsx` -> importato da `App.tsx` e `components/StaticPageLayout.tsx`; usa `APP_URL` e `useLanguage`.
+- `components/Footer.tsx` -> importato da `App.tsx` e `components/StaticPageLayout.tsx`; usa `useLanguage`.
+- `components/LanguageContext.tsx` -> importato da `App.tsx`, `components/Navbar.tsx`, `components/Footer.tsx`, `pages/Home.tsx`, `pages/Platform.tsx`, `src/entries/waitlist.tsx`, `src/entries/LegalPage.tsx`.
+- `components/StaticPageLayout.tsx` -> importato da `src/entries/waitlist.tsx` e `src/entries/LegalPage.tsx`.
+- `components/ui/Button.tsx` -> importato da `pages/Home.tsx`, `pages/Platform.tsx`, `src/entries/waitlist.tsx`.
+
+### PAGES (pages/*)
+- `pages/Home.tsx` -> usa `useLanguage`, `Button`, `APP_URL` (CTA).
+- `pages/Platform.tsx` -> usa `useLanguage`, `Button`, `APP_URL` (CTA).
+- `pages/Academy.tsx` -> contenuti Academy (nessuna CTA con `APP_URL`).
+
+### CONFIG/CONSTANTS
+- `constants.ts` -> `APP_URL = "/waitlist/"`; impatto: CTA "Start/Join/Inizia/Accedi" che usano `APP_URL` puntano alla waitlist.
+
+### BUILD OUTPUT (dist/) -> PROD mapping
+- Manifest deploy locale: `_reports/DEPLOY_manifest_20260101-144103.txt` (non tracciato) + ZIP `_reports/DEPLOY_dist_20260101-144103.zip`.
+- `dist/index.html` -> `public_html/index.html`.
+- `dist/waitlist/index.html` -> `public_html/waitlist/index.html`.
+- `dist/cookie-policy/index.html` -> `public_html/cookie-policy/index.html`.
+- `dist/privacy-policy/index.html` -> `public_html/privacy-policy/index.html`.
+- `dist/disclaimer-trading/index.html` -> `public_html/disclaimer-trading/index.html`.
+- `dist/termini-e-condizioni/index.html` -> `public_html/termini-e-condizioni/index.html`.
+- `dist/assets/Button-CGnWXjIr.js` -> `public_html/assets/Button-CGnWXjIr.js`.
+- `dist/assets/cookie-policy-DIbpp1dw.js` -> `public_html/assets/cookie-policy-DIbpp1dw.js`.
+- `dist/assets/disclaimer-trading-CC3O_N2d.js` -> `public_html/assets/disclaimer-trading-CC3O_N2d.js`.
+- `dist/assets/Footer-CqntzcfQ.js` -> `public_html/assets/Footer-CqntzcfQ.js`.
+- `dist/assets/LegalPage-CfaOVXTk.js` -> `public_html/assets/LegalPage-CfaOVXTk.js`.
+- `dist/assets/main-Drqp_2J2.js` -> `public_html/assets/main-Drqp_2J2.js`.
+- `dist/assets/privacy-policy-ULSMA0MJ.js` -> `public_html/assets/privacy-policy-ULSMA0MJ.js`.
+- `dist/assets/StaticPageLayout-Dc2EIrfd.js` -> `public_html/assets/StaticPageLayout-Dc2EIrfd.js`.
+- `dist/assets/termini-e-condizioni-CMWZVGe-.js` -> `public_html/assets/termini-e-condizioni-CMWZVGe-.js`.
+- `dist/assets/waitlist-DuSejMJc.js` -> `public_html/assets/waitlist-DuSejMJc.js`.
+
 ## TODO prossimi step
 - Rendere strutturale nel repo la `head`/styling per `waitlist/` e pagine legali (evitare fix manuali in cPanel).
 - Allineare processo deploy per evitare mismatch hash (upload unico + purge Cloudflare + verifica hash).
