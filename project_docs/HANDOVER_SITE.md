@@ -86,6 +86,7 @@ Implicazione operativa: prima di qualunque fix grafico, serve riallineare cosa v
 - Concatenazioni incomplete: `('Len='+.Length)` senza `$var`.
 - `Continue=Stop` non valido: usare `$ErrorActionPreference='Stop'`.
 - Assegnazioni con nome che inizia per numero/data (es. `20251231-...=Get-Date...`) non valide.
+- Non annidare `pwsh -Command` con doppie virgolette: espande `$f` e genera `if (!` -> ParserError "Missing expression after unary operator '!'."
 - Regola progetto: no fix manuali incoerenti su cPanel; ogni correzione deve passare da repo + deploy ripetibile.
 
 ## TODO prossimi step
@@ -135,7 +136,7 @@ STOP e attendi approvazione prima di modificare.
 
 ## Stato attuale (baseline)
 - Dev server Vite OK.
-- APP_URL reso configurabile via `VITE_APP_URL` (fallback: https://app.doptrading.it/login).
+- 2026-01-01: APP_URL forzato a `/waitlist/` per riallineare tutte le CTA Start/Join/Inizia/Iscriviti; configurazione via env disattivata in questo step.
 - Fix build applicata: rimosso riferimento rotto `/index.css` da index.html.
 - `.env.local` ignorato via `.gitignore`.
 - Repo GitHub inizializzata e push completato.

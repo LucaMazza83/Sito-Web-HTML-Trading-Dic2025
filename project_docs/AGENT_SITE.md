@@ -16,9 +16,7 @@ Riduce errori, evita modifiche fuori ambito, rende ripetibile il deploy.
 - Build output: dist/ (index.html + assets/*)
 
 ## Config runtime (non hardcoded)
-- APP_URL deve essere configurabile via env:
-  — Variabile: VITE_APP_URL
-  — Default fallback: https://app.doptrading.it/login
+- Per il marketing site, APP_URL e' forzato a `/waitlist/` (configurazione via env disattivata in questo step).
 - Nota: .env.local è SOLO locale e non deve andare in repo.
 
 ## Obiettivo di business (priorità)
@@ -29,7 +27,7 @@ Riduce errori, evita modifiche fuori ambito, rende ripetibile il deploy.
 ## Domini e ambienti
 - Marketing PROD: doptrading.it (sostituzione WP)
 - Staging consigliato: new.doptrading.it oppure beta.doptrading.it
-- App (Next): URL da confermare; finché non disponibile usare VITE_APP_URL.
+- App (Next): URL da confermare; per ora CTA marketing puntano a `/waitlist/` (APP_URL forzato).
 
 ## Deploy VHosting + Cloudflare (minimo e ripetibile)
 - Si pubblica SOLO dist/:
@@ -79,7 +77,7 @@ Riduce errori, evita modifiche fuori ambito, rende ripetibile il deploy.
 ## Checklist release (OK/FAIL)
 - `npm run build` OK senza warning.
 - dist/ contiene index.html + assets/*.
-- CTA “Accedi” usa VITE_APP_URL.
+- CTA “Accedi” usa `/waitlist/` (APP_URL forzato).
 - Waitlist: form funziona + link Privacy/consenso.
 
 ## Prompt template (mini)

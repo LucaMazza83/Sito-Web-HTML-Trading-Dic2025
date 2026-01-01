@@ -21,7 +21,7 @@ export const Footer: React.FC = () => {
             </p>
             <div className="flex gap-4">
               {[Twitter, Linkedin, Instagram].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-brand-blue hover:text-white transition-all">
+                <a key={i} href="/waitlist/" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-brand-blue hover:text-white transition-all">
                   <Icon size={18} />
                 </a>
               ))}

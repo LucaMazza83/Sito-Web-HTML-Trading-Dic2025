@@ -1,6 +1,6 @@
 import { Language, Translations } from './types';
 
-export const APP_URL = (import.meta.env.VITE_APP_URL as string) || "https://app.doptrading.it/login"; // Configurable App URL
+export const APP_URL = "/waitlist/"; // Marketing CTA target
 
 export const TRANSLATIONS: Record<Language, Translations> = {
   [Language.EN]: {
